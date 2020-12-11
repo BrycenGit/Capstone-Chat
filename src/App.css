@@ -67,7 +67,7 @@ form {
 
 form button {
   width: 20%;
-  background-color: rgb(56, 56, 143);
+  background-color: #0a1045;
 }
 
 input {
@@ -82,7 +82,7 @@ input {
 }
 
 button {
-  background-color: #282c34; /* Green */
+  background-color: #0a1045; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -99,7 +99,7 @@ button:disabled {
 }
 
 .sign-in {
-  color: #282c34;
+  color: #f9e900;
   background: white;
   max-width: 400px;
   margin: 0 auto;
@@ -132,20 +132,21 @@ p {
 }
 
 .sent p {
-  color: white;
-  background: #0b93f6;
-  align-self: flex-end;
+  border: 3px solid #1086e8;
+  border-radius: 15px;
+  font-size: 30px;
+  /* animation: border-flicker 2s linear infinite; */
 }
 .received p {
-  border: 5px solid #1086e8;
-  border-radius: 20px;
-  animation: border-flicker 2s linear infinite;
+  border: 3px solid #1086e8;
+  border-radius: 15px;
+  /* animation: border-flicker 2s linear infinite; */
 
   color: #ff00e6;
   font-family: "Raleway", sans-serif;
-  font-size: 64px;
+  font-size: 30px;
   letter-spacing: 10px;
-  animation: text-flicker 3s linear infinite;
+  /* animation: text-flicker 3s linear infinite; */
 }
 
 img {
@@ -177,9 +178,9 @@ body {
 .neonText p {
   color: #ff00e6;
   font-family: "Raleway", sans-serif;
-  font-size: 64px;
-  letter-spacing: 10px;
-  animation: text-flicker 3s linear infinite;
+  /* font-size: 64px; */
+  /* letter-spacing: 10px; */
+  /* animation: text-flicker 3s linear infinite; */
 }
 
 #offset {
