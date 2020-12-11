@@ -15,7 +15,15 @@ const config = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID 
 }
 
-firebase.initializeApp(config)
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+
+  
+}else {
+  firebase.app(); // if already initialized, use that one
+}
+
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -70,13 +78,13 @@ function ChatRoom() {
   const sendMessage = async(e) => {
     e.preventDefault();
 
-    const { uid, photoUrl } = auth.currentUser;
+    const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      photoUrl: photoUrl ? photoUrl : null
+      photoURL: photoURL ? photoURL : null
     });
   
     setFormValue('');
@@ -100,13 +108,13 @@ function ChatRoom() {
 }
 
 function ChatMessage(props) {
-  const { text, uid, photoUrl } = props.message; 
+  const { text, uid, photoURL } = props.message; 
 
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'recieved';
+  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoUrl} />
+      <img src={photoURL} />
       <p>{text}</p>
     </div>
   )
