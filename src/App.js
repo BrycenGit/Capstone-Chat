@@ -46,7 +46,7 @@ function SignIn() {
   )
 }
 
-function SignOut() {
+function SignOut() { //sign out function
   return auth.currentUser && (
 
     <button onClick={() => auth.signOut()}>Sign Out</button>
@@ -54,7 +54,21 @@ function SignOut() {
 }
 
 function ChatRoom() {
-  const messagesRef = firestore.collection('messages');
+  const messagesRef = firestore.collection('messages'); // gets messages from firestore
+  const query = messagesRef.orderBy('createdAt').limit(25); // limits shown messages to 25
+
+  const [messages] = useCollectionData(query, {idField: 'id'}); // listen to data with a hook
+  return (
+    <>
+      <div>
+        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+      </div>
+      
+      <div>
+
+      </div>
+    </>
+  )
 }
 
 export default App;
