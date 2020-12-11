@@ -4,6 +4,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { useState } from 'react';
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -58,21 +59,41 @@ function ChatRoom() {
   const query = messagesRef.orderBy('createdAt').limit(25); // limits shown messages to 25
 
   const [messages] = useCollectionData(query, {idField: 'id'}); // listen to data with a hook
+
+  const [formValue, setFormValue] = useState('');
+
+  const sendMessage = async(e) => {
+
+    e.preventDefault();
+
+    const { uid, photoUrl } = auth.currentUser;
+
+    await messagesRef.add({
+      text: formValue,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uid,
+      // photoUrl,
+    });
+  
+    setFormValue('');
+  }
+  
   return (
     <>
       <div>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       </div>
       
-      <div>
-
-      </div>
+      <form onSubmit={sendMessage}>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+        <button type="submit">Send</button>
+      </form>
     </>
   )
 }
 
 function ChatMessage(props) {
-  const { text, uid } = props.message; 
+  const { text, uid, photoUrl } = props.message; 
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'recieved';
 
