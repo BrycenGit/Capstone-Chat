@@ -2,7 +2,7 @@ import './App.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 firebase.initializeApp({
@@ -72,13 +72,16 @@ function ChatRoom() {
 }
 
 function ChatMessage(props) {
- const { text, uid } = props.message; 
+  const { text, uid } = props.message; 
+
+  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'recieved';
 
   return (
-  <p>
-    {text}
-  </p>
- )
+    <div className={`message ${messageClass}`}>
+      <img src={photoUrl} />
+      <p>{text}</p>
+    </div>
+  )
 }
 
 export default App;
