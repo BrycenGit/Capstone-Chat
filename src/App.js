@@ -72,7 +72,7 @@ function ChatRoom() {
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      // photoUrl,
+      photoUrl: photoUrl ? photoUrl : null
     });
   
     setFormValue('');
