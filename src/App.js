@@ -4,16 +4,18 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 
-firebase.initializeApp({
+const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID 
-})
+}
+
+firebase.initializeApp(config)
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -21,11 +23,11 @@ const firestore = firebase.firestore();
 function App() {
 
   const [user] = useAuthState(auth);
-
+  console.log(auth)
   return (
     <div className='App'>
       <header>
-
+        <SignOut />
       </header>
       <section>
         {user ? <ChatRoom /> : <SignIn />}
@@ -55,6 +57,9 @@ function SignOut() { //sign out function
 }
 
 function ChatRoom() {
+  
+  const dummy = useRef()
+
   const messagesRef = firestore.collection('messages'); // gets messages from firestore
   const query = messagesRef.orderBy('createdAt').limit(25); // limits shown messages to 25
 
@@ -63,7 +68,6 @@ function ChatRoom() {
   const [formValue, setFormValue] = useState('');
 
   const sendMessage = async(e) => {
-
     e.preventDefault();
 
     const { uid, photoUrl } = auth.currentUser;
@@ -76,13 +80,16 @@ function ChatRoom() {
     });
   
     setFormValue('');
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
   }
   
   return (
     <>
-      <div>
+      <main>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-      </div>
+
+        <div ref={dummy}></div>
+      </main>
       
       <form onSubmit={sendMessage}>
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
