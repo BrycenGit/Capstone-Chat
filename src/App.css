@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap");
+
 body {
   background-color: #282c34;
 }
@@ -75,10 +77,11 @@ input {
   width: 100%;
   font-size: 1.5rem;
   background: black;
-  color: #1086e8;
+  color: #f9e900;
   outline: none;
   border: none;
   padding: 0 10px;
+  animation: text-flicker 3s linear infinite;
 }
 
 button {
@@ -135,6 +138,7 @@ p {
   border: 3px solid #1086e8;
   border-radius: 15px;
   font-size: 30px;
+  font-family: "JetBrains Mono", monospace;
   /* animation: border-flicker 2s linear infinite; */
 }
 .received p {
@@ -143,9 +147,9 @@ p {
   /* animation: border-flicker 2s linear infinite; */
 
   color: #ff00e6;
-  font-family: "Raleway", sans-serif;
+  font-family: "JetBrains Mono", monospace;
   font-size: 30px;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
   /* animation: text-flicker 3s linear infinite; */
 }
 
@@ -157,11 +161,6 @@ img {
 }
 
 /* neon stuff */
-
-@import url("https://fonts.googleapis.com/css?family=Raleway");
-body {
-  background-color: black;
-}
 
 /* div {
   text-align: center;
@@ -177,7 +176,7 @@ body {
 
 .neonText p {
   color: #ff00e6;
-  font-family: "Raleway", sans-serif;
+  font-family: "JetBrains Mono", monospace;
   /* font-size: 64px; */
   /* letter-spacing: 10px; */
   /* animation: text-flicker 3s linear infinite; */
