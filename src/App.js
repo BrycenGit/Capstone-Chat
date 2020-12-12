@@ -79,7 +79,7 @@ function ChatRoom() {
     const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
-      text: CryptoJS.AES.encrypt(formValue, 'hello').toString(),
+      text: CryptoJS.AES.encrypt(e.target.value, 'hello').toString(),
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL: photoURL ? photoURL : null
@@ -98,7 +98,7 @@ function ChatRoom() {
       </main>
       
       <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => {setFormValue(e.target.value);console.log(CryptoJS.AES.encrypt(e.target.value, 'hello').toString())}}/>
+        <input value={formValue} onChange={(e) => {setFormValue(e.target.value);}}/>
         <button type="submit">Send</button>
       </form>
     </>
@@ -107,9 +107,9 @@ function ChatRoom() {
 
 function ChatMessage(props) {
   const { text, uid, photoURL } = props.message; 
-
+  const bytes = CryptoJS.DES.decrypt(text, "Secret Passphrase");
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
-
+  console.log(bytes.toString())
   return (
     <div className={`message ${messageClass}`}>
       <img src={photoURL} />
