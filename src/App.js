@@ -18,13 +18,11 @@ const config = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
-
-  
 }else {
   firebase.app(); // if already initialized, use that one
 }
 
-
+const CryptoJS = require('crypto-js');
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
@@ -81,7 +79,7 @@ function ChatRoom() {
     const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
-      text: formValue,
+      text: CryptoJS.AES.encrypt(formValue, 'hello').toString(),
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL: photoURL ? photoURL : null
@@ -100,7 +98,7 @@ function ChatRoom() {
       </main>
       
       <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+        <input value={formValue} onChange={(e) => {setFormValue(e.target.value);console.log(CryptoJS.AES.encrypt(e.target.value, 'hello').toString())}}/>
         <button type="submit">Send</button>
       </form>
     </>
