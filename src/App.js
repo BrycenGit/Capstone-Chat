@@ -21,7 +21,7 @@ if (!firebase.apps.length) {
 }else {
   firebase.app(); // if already initialized, use that one
 }
-
+const key = "bye bye bye"
 const CryptoJS = require('crypto-js');
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -79,7 +79,7 @@ function ChatRoom() {
     const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
-      text: CryptoJS.AES.encrypt(e.target.value, 'hello').toString(),
+      text: CryptoJS.AES.encrypt(formValue, key).toString(),
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL: photoURL ? photoURL : null
@@ -107,13 +107,13 @@ function ChatRoom() {
 
 function ChatMessage(props) {
   const { text, uid, photoURL } = props.message; 
-  const bytes = CryptoJS.DES.decrypt(text, "Secret Passphrase");
+  const bytes = CryptoJS.AES.decrypt(text, key);
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
-  console.log(bytes.toString())
+  console.log(bytes.toString(CryptoJS.enc.Utf8))
   return (
     <div className={`message ${messageClass}`}>
       <img src={photoURL} />
-      <div className='neonText'><p>{text}</p></div>
+      <div className='neonText'><p>{bytes.toString(CryptoJS.enc.Utf8)}</p></div>
     </div>
   )
 }
